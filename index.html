@@ -8,23 +8,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"
     />
-    <style>
-      .main-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-      }
-      .input-widget {
-        width: 40%;
-      }
-      @media (orientation: portrait) {
-        .input-widget {
-          width: 80%;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
     <div class="container main-wrapper">
@@ -47,45 +31,7 @@
         <button class="btn btn-outline-secondary" type="button">Copy</button>
       </div>
     </div>
-    <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.min.js"></script>
-    <script>
-      const keyword = document.getElementById("keyword");
-      const makeLink = document.getElementById("button");
-      const inputGroup = document.querySelector(".input-group");
-      const input = document.querySelector(".input-group input");
-      const copyButton = document.querySelector(".input-group button");
-
-      const warning = document.getElementById("warning");
-
-      // current url except file name
-      const currentUrl = window.location.href.replace(
-        /\/[^/]*$/,
-        "/lmgtfy.html"
-      );
-
-      makeLink.addEventListener("click", () => {
-        if (!keyword.value) {
-          warning.removeAttribute("hidden");
-          warning.innerText = "Please enter a keyword";
-          return;
-        }
-        input.value = `${currentUrl}?q=${encodeURI(keyword.value)}`;
-        inputGroup.removeAttribute("hidden");
-        input.select();
-        document.execCommand("copy");
-
-        warning.removeAttribute("hidden");
-        warning.innerText = "Link copied!";
-        warning.classList.add("text-success");
-        warning.classList.remove("text-danger");
-        // make green
-      });
-
-      copyButton.addEventListener("click", () => {
-        input.select();
-        document.execCommand("copy");
-      });
-    </script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
