@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>LMGTFY</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        position: relative;
+      }
+
+      .search-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .logo {
+        margin-bottom: 20px;
+        width: 80%; /* 로고 크기 조정 */
+        max-width: 300px; /* 최대 크기 제한 */
+      }
+
+      .search-box {
+        display: flex;
+        flex-direction: column; /* 모바일에서는 세로 정렬 */
+        align-items: center;
+        width: 90%; /* 검색 박스 너비 조정 */
+      }
+
+      input[type="text"],
+      button {
+        width: 100%; /* 전체 너비 사용 */
+        margin: 10px 0; /* 상하 간격 추가 */
+      }
+
+      button {
+        padding: 12px 20px;
+      }
+
+      #cursor {
+        display: none; /* 모바일에서는 커서 효과를 사용하지 않음 */
+      }
+
+      /* 더 작은 화면에 대한 추가적인 조정 */
+      @media (max-width: 600px) {
+        .logo {
+          margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        button {
+          font-size: 14px;
+          padding: 8px 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="search-container">
+      <img
+        src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+        alt="Google Logo"
+        class="logo"
+      />
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="검색" />
+        <button id="searchButton">Search</button>
+      </div>
+    </div>
+    <img src="./cursor.png" id="cursor" />
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <p>Look at you, becoming a search pro!</p>
+      </div>
+    </div>
+    <script>
+      window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const searchQuery = params.get("q") || "Google";
+        const input = document.getElementById("searchInput");
+        const button = document.getElementById("searchButton");
+        const cursor = document.getElementById("cursor");
+        const modal = document.getElementById("myModal");
+
+        button.onclick = function () {
+          modal.style.visibility = "visible";
+          modal.style.opacity = 1;
+          setTimeout(function () {
+            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(
+              searchQuery
+            )}`;
+          }, 2000); // 2초 후 Google로 리디렉션
+        };
+
+        let i = 0;
+        const typingSpeed = 100; // 밀리초 단위
+        const cursorMoveSpeed = 100; // 커서 이동 속도
+
+        function typeCharacter() {
+          if (i < searchQuery.length) {
+            input.value += searchQuery.charAt(i);
+            i++;
+            setTimeout(typeCharacter, typingSpeed);
+          } else {
+            setTimeout(() => {
+              cursor.style.top = `${button.offsetTop + 10}px`; // 버튼 위치로 이동
+              cursor.style.left = `${button.offsetLeft + 10}px`; // 버튼 위치로 이동
+              setTimeout(() => {
+                button.click(); // 버튼 클릭 이벤트
+              }, 2000);
+            }, cursorMoveSpeed);
+          }
+        }
+
+        cursor.style.top = `${input.offsetTop + 10}px`; // 초기 커서 위치
+        cursor.style.left = `${input.offsetLeft + 10}px`; // 초기 커서 위치
+        setTimeout(typeCharacter, 1000);
+      };
+    </script>
+  </body>
+</html>
